@@ -1,0 +1,340 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ProCro - Calcul rapide de produit en croix (règle de 3)">
+    <meta name="theme-color" content="#6366f1">
+    <title>ProCro - Produit en Croix</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%236366f1' width='192' height='192'/><text x='50%' y='50%' font-size='120' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='middle'>✕</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">ProCro</h1>
+                <p class="tagline">Produit en Croix</p>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-btn active" data-page="calculator">Calcul</button>
+                <button class="nav-btn" data-page="examples">Exemples</button>
+                <button class="nav-btn" data-page="history">Historique</button>
+                <button class="nav-btn" data-page="comparison">Comparaison</button>
+            </nav>
+        </header>
+
+        <!-- Page Calculator -->
+        <section id="calculator" class="page active">
+            <div class="content">
+                <form id="calculatorForm" class="calculator-form">
+                    <!-- Accordéon -->
+                    <div class="accordion">
+                        <button type="button" class="accordion-btn" id="exampleToggle">
+                            <span class="accordion-icon">▶</span>
+                            💡 Comment ça marche ?
+                        </button>
+                        <div class="accordion-content" id="exampleContent">
+                            <div class="example-guide">
+                                <p><strong>Exemple :</strong> Si 100 km consomme 7 litres, combien pour 170 km ?</p>
+
+                                <div class="example-mapping">
+                                    <div class="mapping-item">
+                                        <div class="mapping-label">A</div>
+                                        <div class="mapping-arrow">←</div>
+                                        <div class="mapping-value">100 (première distance)</div>
+                                    </div>
+                                    <div class="mapping-item">
+                                        <div class="mapping-label">B</div>
+                                        <div class="mapping-arrow">←</div>
+                                        <div class="mapping-value">7 (consommation pour A)</div>
+                                    </div>
+                                    <div class="mapping-item">
+                                        <div class="mapping-label">C</div>
+                                        <div class="mapping-arrow">←</div>
+                                        <div class="mapping-value">170 (deuxième distance)</div>
+                                    </div>
+                                    <div class="mapping-item highlight">
+                                        <div class="mapping-label">X</div>
+                                        <div class="mapping-arrow">←</div>
+                                        <div class="mapping-value">11.9 (consommation pour C)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tableau 2x2 -->
+                    <div class="cross-table">
+                        <div class="table-cell">
+                            <div class="input-group">
+                                <label for="inputA">A</label>
+                                <input type="number" id="inputA" placeholder="Valeur" step="any">
+                                <small>Première valeur connue</small>
+                            </div>
+                        </div>
+
+                        <div class="table-cell result-cell">
+                            <div class="input-group">
+                                <label for="resultX">X</label>
+                                <div class="result-display" id="resultX">-</div>
+                                <small>Résultat</small>
+                            </div>
+                        </div>
+
+                        <div class="table-cell">
+                            <div class="input-group">
+                                <label for="inputB">B</label>
+                                <input type="number" id="inputB" placeholder="Valeur" step="any">
+                                <small>Deuxième valeur connue</small>
+                            </div>
+                        </div>
+
+                        <div class="table-cell">
+                            <div class="input-group">
+                                <label for="inputC">C</label>
+                                <input type="number" id="inputC" placeholder="Valeur" step="any">
+                                <small>Troisième valeur connue</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bouton Calculer -->
+                    <button type="button" id="calculateBtn" class="btn btn-primary">Calculer</button>
+
+                    <!-- Sauvegarde -->
+                    <div class="save-result">
+                        <input type="text" id="resultName" placeholder="Nommer ce calcul (ex: Consommation voiture)">
+                        <button type="button" id="saveBtn" class="btn btn-secondary">Sauvegarder</button>
+                    </div>
+
+                    <!-- Formule -->
+                    <div class="info-box">
+                        <strong>📝 Formule :</strong> X = (B × C) ÷ A
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Page Examples -->
+        <section id="examples" class="page">
+            <div class="content">
+                <h2>Exemples d'utilisation</h2>
+                <div class="examples-grid">
+                    <!-- Exemple 1: Recette -->
+                    <div class="example-card">
+                        <h3>🍰 Recette (réduire une portion)</h3>
+                        <p><strong>Situation :</strong> Une recette pour 4 personnes, je veux pour 6 personnes</p>
+                        <div class="example-demo">
+                            <p><strong>Données :</strong></p>
+                            <ul>
+                                <li><strong>A = 4</strong> (personnes initiales)</li>
+                                <li><strong>B = 200g</strong> (farine pour 4)</li>
+                                <li><strong>C = 6</strong> (personnes désirées)</li>
+                                <li><strong>X = ?</strong> (farine pour 6)</li>
+                            </ul>
+                            <p class="result">→ <strong>X = 300g</strong> de farine</p>
+                        </div>
+                    </div>
+
+                    <!-- Exemple 2: Vitesse/Distance -->
+                    <div class="example-card">
+                        <h3>🚗 Vitesse et Distance</h3>
+                        <p><strong>Situation :</strong> Je fais 150km en 2h, combien en 5h ?</p>
+                        <div class="example-demo">
+                            <p><strong>Données :</strong></p>
+                            <ul>
+                                <li><strong>A = 2</strong> (heures)</li>
+                                <li><strong>B = 150</strong> (km parcourus)</li>
+                                <li><strong>C = 5</strong> (heures futures)</li>
+                                <li><strong>X = ?</strong> (km futurs)</li>
+                            </ul>
+                            <p class="result">→ <strong>X = 375km</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Exemple 3: Prix à la pesée -->
+                    <div class="example-card">
+                        <h3>📊 Prix à la pesée</h3>
+                        <p><strong>Situation :</strong> 300g de fromage coûtent 7.50€. Combien coûte 500g ?</p>
+                        <div class="example-demo">
+                            <p><strong>Données :</strong></p>
+                            <ul>
+                                <li><strong>A = 300</strong> (grammes)</li>
+                                <li><strong>B = 7.50€</strong> (prix pour 300g)</li>
+                                <li><strong>C = 500</strong> (grammes désirés)</li>
+                                <li><strong>X = ?</strong> (prix pour 500g)</li>
+                            </ul>
+                            <p class="result">→ <strong>X = 12.50€</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Exemple 4: Conversion -->
+                    <div class="example-card">
+                        <h3>⚖️ Conversion d'unités</h3>
+                        <p><strong>Situation :</strong> 5 euros, c'est combien en dollars ? (1€ = 1.10$)</p>
+                        <div class="example-demo">
+                            <p><strong>Données :</strong></p>
+                            <ul>
+                                <li><strong>A = 1</strong> (euro)</li>
+                                <li><strong>B = 1.10</strong> (dollar par euro)</li>
+                                <li><strong>C = 5</strong> (euros à convertir)</li>
+                                <li><strong>X = ?</strong> (dollars)</li>
+                            </ul>
+                            <p class="result">→ <strong>X = 5.50$</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page History -->
+        <section id="history" class="page">
+            <div class="content">
+                <h2>Historique</h2>
+                <div id="historyList" class="history-list">
+                    <p class="empty-state">Aucun calcul sauvegardé. Effectue un calcul et sauvegarde-le !</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Comparison -->
+<section id="comparison" class="page">
+    <div class="content">
+        <h2>📊 Comparer deux produits</h2>
+        <p class="page-subtitle">Entrez les caractéristiques de deux produits pour les comparer instantanément</p>
+
+        <form id="comparisonForm" class="comparison-form">
+            <div class="comparison-container">
+                <!-- Produit 1 -->
+                <div class="product-card">
+                    <h3>Produit 1</h3>
+                    <div class="input-group">
+                        <label for="comp-product1-name">Nom</label>
+                        <input type="text" id="comp-product1-name" placeholder="Ex: Clio" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="comp-product1-val1">Valeur 1</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="comp-product1-val1" placeholder="7" step="any" required>
+                            <input type="text" id="comp-product1-unit1" placeholder="L" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="comp-product1-val2">Valeur 2</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="comp-product1-val2" placeholder="100" step="any" required>
+                            <input type="text" id="comp-product1-unit2" placeholder="km" maxlength="10">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produit 2 -->
+                <div class="product-card">
+                    <h3>Produit 2</h3>
+                    <div class="input-group">
+                        <label for="comp-product2-name">Nom</label>
+                        <input type="text" id="comp-product2-name" placeholder="Ex: Xiaomi" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="comp-product2-val1">Valeur 1</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="comp-product2-val1" placeholder="4.12" step="any" required>
+                            <input type="text" id="comp-product2-unit1" placeholder="L" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="comp-product2-val2">Valeur 2</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="comp-product2-val2" placeholder="100" step="any" required>
+                            <input type="text" id="comp-product2-unit2" placeholder="km" maxlength="10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <button type="button" id="compareBtn" class="btn btn-primary">📊 Comparer</button>
+                <button type="reset" class="btn btn-secondary">🔄 Réinitialiser</button>
+            </div>
+        </form>
+
+<!-- Résultats -->
+<div id="comparisonResults" class="comparison-results hidden">
+    <h3>📊 Résultats</h3>
+
+    <div class="result-grid">
+        <!-- Produit 1 -->
+        <div class="result-item">
+            <span id="comp-result-ratio-p1-name1" class="result-label"></span>
+            <div id="comp-result-ratio-p1-val1" class="result-ratio-display"></div>
+        </div>
+
+        <div class="result-item">
+            <span id="comp-result-ratio-p1-name2" class="result-label"></span>
+            <div id="comp-result-ratio-p1-val2" class="result-ratio-display"></div>
+        </div>
+
+        <!-- Produit 2 -->
+        <div class="result-item">
+            <span id="comp-result-ratio-p2-name1" class="result-label"></span>
+            <div id="comp-result-ratio-p2-val1" class="result-ratio-display"></div>
+        </div>
+
+        <div class="result-item">
+            <span id="comp-result-ratio-p2-name2" class="result-label"></span>
+            <div id="comp-result-ratio-p2-val2" class="result-ratio-display"></div>
+        </div>
+    </div>
+
+    <!-- Comparaisons supplémentaires -->
+    <div class="comparison-extra-section">
+        <h4>📊 COMPARAISONS SUPPLÉMENTAIRES</h4>
+        
+        <div class="extra-comparison-grid">
+            <!-- Différences absolues -->
+            <div class="extra-item">
+                <span id="comp-diff-unit1-label" class="extra-label"></span>
+                <div id="comp-diff-unit1-value" class="extra-value"></div>
+            </div>
+
+            <div class="extra-item">
+                <span id="comp-diff-unit2-label" class="extra-label"></span>
+                <div id="comp-diff-unit2-value" class="extra-value"></div>
+            </div>
+
+            <!-- % sur les ratios -->
+            <div class="extra-item">
+                <span id="comp-percent-ratio1-label" class="extra-label"></span>
+                <div id="comp-percent-ratio1-value" class="extra-value"></div>
+            </div>
+
+            <div class="extra-item">
+                <span id="comp-percent-ratio2-label" class="extra-label"></span>
+                <div id="comp-percent-ratio2-value" class="extra-value"></div>
+            </div>
+
+            <!-- Valeur normalisée -->
+            <div class="extra-item full-width">
+                <span id="comp-normalized-label" class="extra-label"></span>
+                <div id="comp-normalized-value" class="extra-value"></div>
+            </div>
+        </div>
+    </div>
+</div>
+ </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 - LEROY Aurélien - Tous droits réservés - Version 1.0.0</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
