@@ -1,340 +1,289 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ProCro - Calcul rapide de produit en croix (règle de 3)">
-    <meta name="theme-color" content="#6366f1">
-    <title>ProCro - Produit en Croix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="ProCro – Règle de 3, prix au kilo, pourcentages et comparateur de promos.">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ProCro">
+    <title>ProCro – Calculs du quotidien</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%236366f1' width='192' height='192'/><text x='50%' y='50%' font-size='120' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='middle'>✕</text></svg>">
+    <link rel="apple-touch-icon" href="192.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%234f46e5' width='192' height='192' rx='40'/><text x='50%' y='54%' font-size='120' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial'>✕</text></svg>">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1 class="logo">ProCro</h1>
-                <p class="tagline">Produit en Croix</p>
+
+    <!-- ===== EN-TÊTE ===== -->
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-logo" aria-hidden="true">✕</span>
+            <div>
+                <h1>ProCro</h1>
+                <p id="pageSubtitle">Règle de 3</p>
             </div>
-            <nav class="nav-tabs">
-                <button class="nav-btn active" data-page="calculator">Calcul</button>
-                <button class="nav-btn" data-page="examples">Exemples</button>
-                <button class="nav-btn" data-page="history">Historique</button>
-                <button class="nav-btn" data-page="comparison">Comparaison</button>
-            </nav>
-        </header>
+        </div>
+    </header>
 
-        <!-- Page Calculator -->
-        <section id="calculator" class="page active">
-            <div class="content">
-                <form id="calculatorForm" class="calculator-form">
-                    <!-- Accordéon -->
-                    <div class="accordion">
-                        <button type="button" class="accordion-btn" id="exampleToggle">
-                            <span class="accordion-icon">▶</span>
-                            💡 Comment ça marche ?
-                        </button>
-                        <div class="accordion-content" id="exampleContent">
-                            <div class="example-guide">
-                                <p><strong>Exemple :</strong> Si 100 km consomme 7 litres, combien pour 170 km ?</p>
+    <main id="main">
 
-                                <div class="example-mapping">
-                                    <div class="mapping-item">
-                                        <div class="mapping-label">A</div>
-                                        <div class="mapping-arrow">←</div>
-                                        <div class="mapping-value">100 (première distance)</div>
-                                    </div>
-                                    <div class="mapping-item">
-                                        <div class="mapping-label">B</div>
-                                        <div class="mapping-arrow">←</div>
-                                        <div class="mapping-value">7 (consommation pour A)</div>
-                                    </div>
-                                    <div class="mapping-item">
-                                        <div class="mapping-label">C</div>
-                                        <div class="mapping-arrow">←</div>
-                                        <div class="mapping-value">170 (deuxième distance)</div>
-                                    </div>
-                                    <div class="mapping-item highlight">
-                                        <div class="mapping-label">X</div>
-                                        <div class="mapping-arrow">←</div>
-                                        <div class="mapping-value">11.9 (consommation pour C)</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- ===================== RÈGLE DE 3 ===================== -->
+        <section id="page-rule3" class="page active" aria-labelledby="t-rule3">
+            <div class="card">
+                <h2 id="t-rule3">Règle de 3</h2>
+                <p class="lead">Si <b>A</b> correspond à <b>B</b>, alors <b>C</b> correspond à <b>X</b>.<br>Remplis 3 cases, X se calcule tout seul.</p>
+
+                <div class="cross">
+                    <label class="cell">
+                        <span class="cell-top"><span class="cell-tag">A</span><span class="cell-hint">Valeur de départ</span></span>
+                        <input id="r3-a" class="num" type="text" inputmode="decimal" placeholder="100" autocomplete="off">
+                    </label>
+                    <span class="cross-arrow" aria-hidden="true">→</span>
+                    <label class="cell">
+                        <span class="cell-top"><span class="cell-tag">B</span><span class="cell-hint">Correspond à A</span></span>
+                        <input id="r3-b" class="num" type="text" inputmode="decimal" placeholder="7" autocomplete="off">
+                    </label>
+
+                    <label class="cell">
+                        <span class="cell-top"><span class="cell-tag">C</span><span class="cell-hint">Nouvelle valeur</span></span>
+                        <input id="r3-c" class="num" type="text" inputmode="decimal" placeholder="170" autocomplete="off">
+                    </label>
+                    <span class="cross-arrow" aria-hidden="true">→</span>
+                    <div class="cell cell-result">
+                        <span class="cell-top"><span class="cell-tag">X</span><span class="cell-hint">Résultat</span></span>
+                        <output id="r3-x" aria-live="polite">?</output>
                     </div>
+                </div>
 
-                    <!-- Tableau 2x2 -->
-                    <div class="cross-table">
-                        <div class="table-cell">
-                            <div class="input-group">
-                                <label for="inputA">A</label>
-                                <input type="number" id="inputA" placeholder="Valeur" step="any">
-                                <small>Première valeur connue</small>
-                            </div>
-                        </div>
+                <label class="switch-row">
+                    <input type="checkbox" id="r3-inverse">
+                    <span class="switch" aria-hidden="true"></span>
+                    <span class="switch-text">Inversement proportionnel
+                        <small>Quand l’un augmente, l’autre baisse. Ex : 4 ouvriers → 6 jours, 3 ouvriers → ? jours</small>
+                    </span>
+                </label>
 
-                        <div class="table-cell result-cell">
-                            <div class="input-group">
-                                <label for="resultX">X</label>
-                                <div class="result-display" id="resultX">-</div>
-                                <small>Résultat</small>
-                            </div>
-                        </div>
+                <div class="explain" id="r3-explain">Remplis <b>A</b>, <b>B</b> et <b>C</b>.</div>
 
-                        <div class="table-cell">
-                            <div class="input-group">
-                                <label for="inputB">B</label>
-                                <input type="number" id="inputB" placeholder="Valeur" step="any">
-                                <small>Deuxième valeur connue</small>
-                            </div>
-                        </div>
+                <div class="actions">
+                    <button type="button" class="btn btn-ghost" id="r3-clear">Effacer</button>
+                    <button type="button" class="btn btn-primary" data-save="rule3">Sauvegarder</button>
+                </div>
+            </div>
 
-                        <div class="table-cell">
-                            <div class="input-group">
-                                <label for="inputC">C</label>
-                                <input type="number" id="inputC" placeholder="Valeur" step="any">
-                                <small>Troisième valeur connue</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bouton Calculer -->
-                    <button type="button" id="calculateBtn" class="btn btn-primary">Calculer</button>
-
-                    <!-- Sauvegarde -->
-                    <div class="save-result">
-                        <input type="text" id="resultName" placeholder="Nommer ce calcul (ex: Consommation voiture)">
-                        <button type="button" id="saveBtn" class="btn btn-secondary">Sauvegarder</button>
-                    </div>
-
-                    <!-- Formule -->
-                    <div class="info-box">
-                        <strong>📝 Formule :</strong> X = (B × C) ÷ A
-                    </div>
-                </form>
+            <div class="card">
+                <h3>Exemples à essayer</h3>
+                <div class="chips" id="r3-examples"></div>
             </div>
         </section>
 
-        <!-- Page Examples -->
-        <section id="examples" class="page">
-            <div class="content">
-                <h2>Exemples d'utilisation</h2>
-                <div class="examples-grid">
-                    <!-- Exemple 1: Recette -->
-                    <div class="example-card">
-                        <h3>🍰 Recette (réduire une portion)</h3>
-                        <p><strong>Situation :</strong> Une recette pour 4 personnes, je veux pour 6 personnes</p>
-                        <div class="example-demo">
-                            <p><strong>Données :</strong></p>
-                            <ul>
-                                <li><strong>A = 4</strong> (personnes initiales)</li>
-                                <li><strong>B = 200g</strong> (farine pour 4)</li>
-                                <li><strong>C = 6</strong> (personnes désirées)</li>
-                                <li><strong>X = ?</strong> (farine pour 6)</li>
-                            </ul>
-                            <p class="result">→ <strong>X = 300g</strong> de farine</p>
-                        </div>
-                    </div>
+        <!-- ===================== PRIX AU POIDS ===================== -->
+        <section id="page-price" class="page" aria-labelledby="t-price">
+            <div class="card">
+                <h2 id="t-price">Prix au poids</h2>
+                <p class="lead">Ex : 300 g de fromage coûtent 7,50 €. Combien coûtent 500 g ?</p>
 
-                    <!-- Exemple 2: Vitesse/Distance -->
-                    <div class="example-card">
-                        <h3>🚗 Vitesse et Distance</h3>
-                        <p><strong>Situation :</strong> Je fais 150km en 2h, combien en 5h ?</p>
-                        <div class="example-demo">
-                            <p><strong>Données :</strong></p>
-                            <ul>
-                                <li><strong>A = 2</strong> (heures)</li>
-                                <li><strong>B = 150</strong> (km parcourus)</li>
-                                <li><strong>C = 5</strong> (heures futures)</li>
-                                <li><strong>X = ?</strong> (km futurs)</li>
-                            </ul>
-                            <p class="result">→ <strong>X = 375km</strong></p>
-                        </div>
-                    </div>
+                <div class="segmented" role="tablist" aria-label="Type de calcul">
+                    <button type="button" class="seg active" data-price-mode="qty" role="tab" aria-selected="true">Prix d’une quantité</button>
+                    <button type="button" class="seg" data-price-mode="budget" role="tab" aria-selected="false">Quantité pour un budget</button>
+                </div>
 
-                    <!-- Exemple 3: Prix à la pesée -->
-                    <div class="example-card">
-                        <h3>📊 Prix à la pesée</h3>
-                        <p><strong>Situation :</strong> 300g de fromage coûtent 7.50€. Combien coûte 500g ?</p>
-                        <div class="example-demo">
-                            <p><strong>Données :</strong></p>
-                            <ul>
-                                <li><strong>A = 300</strong> (grammes)</li>
-                                <li><strong>B = 7.50€</strong> (prix pour 300g)</li>
-                                <li><strong>C = 500</strong> (grammes désirés)</li>
-                                <li><strong>X = ?</strong> (prix pour 500g)</li>
-                            </ul>
-                            <p class="result">→ <strong>X = 12.50€</strong></p>
-                        </div>
-                    </div>
+                <p class="step-label">Ce que tu connais</p>
+                <div class="grid-qty">
+                    <label class="field">
+                        <span class="field-label">Prix affiché</span>
+                        <span class="input-wrap">
+                            <input id="pr-price" class="num" type="text" inputmode="decimal" placeholder="7,50" autocomplete="off">
+                            <span class="suffix">€</span>
+                        </span>
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Pour</span>
+                        <span class="input-wrap">
+                            <input id="pr-qty" class="num" type="text" inputmode="decimal" placeholder="300" autocomplete="off">
+                            <select id="pr-unit" data-units="g" aria-label="Unité"></select>
+                        </span>
+                    </label>
+                </div>
 
-                    <!-- Exemple 4: Conversion -->
-                    <div class="example-card">
-                        <h3>⚖️ Conversion d'unités</h3>
-                        <p><strong>Situation :</strong> 5 euros, c'est combien en dollars ? (1€ = 1.10$)</p>
-                        <div class="example-demo">
-                            <p><strong>Données :</strong></p>
-                            <ul>
-                                <li><strong>A = 1</strong> (euro)</li>
-                                <li><strong>B = 1.10</strong> (dollar par euro)</li>
-                                <li><strong>C = 5</strong> (euros à convertir)</li>
-                                <li><strong>X = ?</strong> (dollars)</li>
-                            </ul>
-                            <p class="result">→ <strong>X = 5.50$</strong></p>
-                        </div>
+                <div id="pr-qty-block">
+                    <p class="step-label">Ce que tu veux</p>
+                    <label class="field">
+                        <span class="field-label">Quantité voulue</span>
+                        <span class="input-wrap">
+                            <input id="pr-target" class="num" type="text" inputmode="decimal" placeholder="500" autocomplete="off">
+                            <select id="pr-tunit" data-units="g" aria-label="Unité voulue"></select>
+                        </span>
+                    </label>
+                </div>
+
+                <div id="pr-budget-block" hidden>
+                    <p class="step-label">Ton budget</p>
+                    <div class="grid-qty">
+                        <label class="field">
+                            <span class="field-label">Budget</span>
+                            <span class="input-wrap">
+                                <input id="pr-budget" class="num" type="text" inputmode="decimal" placeholder="10" autocomplete="off">
+                                <span class="suffix">€</span>
+                            </span>
+                        </label>
+                        <label class="field">
+                            <span class="field-label">Résultat en</span>
+                            <select id="pr-bunit" class="select" data-units="g"></select>
+                        </label>
                     </div>
+                </div>
+
+                <div class="result is-empty" id="pr-result" aria-live="polite">
+                    <span class="result-label">Résultat</span>
+                    <strong class="result-value">?</strong>
+                    <span class="result-sub"></span>
+                </div>
+                <ul class="facts" id="pr-facts"></ul>
+
+                <div class="actions">
+                    <button type="button" class="btn btn-ghost" id="pr-clear">Effacer</button>
+                    <button type="button" class="btn btn-primary" data-save="price">Sauvegarder</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Exemples à essayer</h3>
+                <div class="chips" id="pr-examples"></div>
+            </div>
+        </section>
+
+        <!-- ===================== POURCENTAGES ===================== -->
+        <section id="page-percent" class="page" aria-labelledby="t-percent">
+            <div class="card">
+                <h2 id="t-percent">Pourcentages</h2>
+                <p class="lead">Choisis ce que tu veux calculer :</p>
+
+                <div class="chips chips-modes" id="pct-modes" role="tablist" aria-label="Type de calcul"></div>
+                <p class="mode-hint" id="pct-hint"></p>
+
+                <div class="grid-2" id="pct-fields"></div>
+
+                <div class="result is-empty" id="pct-result" aria-live="polite">
+                    <span class="result-label">Résultat</span>
+                    <strong class="result-value">?</strong>
+                    <span class="result-sub"></span>
+                </div>
+                <div class="explain" id="pct-explain" hidden></div>
+
+                <div class="actions actions-3">
+                    <button type="button" class="btn btn-ghost" id="pct-example">Exemple</button>
+                    <button type="button" class="btn btn-ghost" id="pct-clear">Effacer</button>
+                    <button type="button" class="btn btn-primary" data-save="percent">Sauvegarder</button>
                 </div>
             </div>
         </section>
 
-        <!-- Page History -->
-        <section id="history" class="page">
-            <div class="content">
-                <h2>Historique</h2>
-                <div id="historyList" class="history-list">
-                    <p class="empty-state">Aucun calcul sauvegardé. Effectue un calcul et sauvegarde-le !</p>
+        <!-- ===================== COMPARATEUR DE PROMOS ===================== -->
+        <section id="page-promo" class="page" aria-labelledby="t-promo">
+            <div class="card">
+                <h2 id="t-promo">Comparateur de promos</h2>
+                <p class="lead">Une promo n’est pas toujours une bonne affaire. Entre les offres du rayon : ProCro calcule le <b>vrai prix au kilo ou au litre</b>.</p>
+
+                <div id="offers"></div>
+
+                <div class="actions">
+                    <button type="button" class="btn btn-ghost" id="promo-reset">Effacer</button>
+                    <button type="button" class="btn btn-soft" id="addOffer">+ Ajouter une offre</button>
                 </div>
+            </div>
+
+            <div class="card">
+                <h3>Verdict</h3>
+                <div id="promo-results"></div>
+                <button type="button" class="btn btn-primary btn-block mt" id="promo-save" data-save="promo" hidden>Sauvegarder la comparaison</button>
+            </div>
+
+            <div class="card">
+                <h3>Exemples à essayer</h3>
+                <div class="chips" id="promo-examples"></div>
+            </div>
+
+            <div class="card">
+                <h3>💡 Bon à savoir</h3>
+                <ul class="tips">
+                    <li><b>Le 2ᵉ à −50 %</b> = seulement <b>−25 %</b> sur les deux articles.</li>
+                    <li><b>Le 2ᵉ à −30 %</b> = <b>−15 %</b> réel.</li>
+                    <li><b>3 pour le prix de 2</b> (= 2 achetés + 1 offert) = <b>−33 %</b>.</li>
+                    <li><b>−20 % puis −10 %</b> ne font pas −30 % mais <b>−28 %</b>.</li>
+                    <li>Le grand format sans promo est souvent moins cher au kilo : compare toujours le <b>prix au kg ou au L</b>.</li>
+                    <li>Une promo qui oblige à acheter plus n’est utile que si tu vas vraiment tout consommer.</li>
+                </ul>
             </div>
         </section>
 
-        <!-- Page Comparison -->
-<section id="comparison" class="page">
-    <div class="content">
-        <h2>📊 Comparer deux produits</h2>
-        <p class="page-subtitle">Entrez les caractéristiques de deux produits pour les comparer instantanément</p>
-
-        <form id="comparisonForm" class="comparison-form">
-            <div class="comparison-container">
-                <!-- Produit 1 -->
-                <div class="product-card">
-                    <h3>Produit 1</h3>
-                    <div class="input-group">
-                        <label for="comp-product1-name">Nom</label>
-                        <input type="text" id="comp-product1-name" placeholder="Ex: Clio" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="comp-product1-val1">Valeur 1</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="comp-product1-val1" placeholder="7" step="any" required>
-                            <input type="text" id="comp-product1-unit1" placeholder="L" maxlength="10">
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="comp-product1-val2">Valeur 2</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="comp-product1-val2" placeholder="100" step="any" required>
-                            <input type="text" id="comp-product1-unit2" placeholder="km" maxlength="10">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Produit 2 -->
-                <div class="product-card">
-                    <h3>Produit 2</h3>
-                    <div class="input-group">
-                        <label for="comp-product2-name">Nom</label>
-                        <input type="text" id="comp-product2-name" placeholder="Ex: Xiaomi" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="comp-product2-val1">Valeur 1</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="comp-product2-val1" placeholder="4.12" step="any" required>
-                            <input type="text" id="comp-product2-unit1" placeholder="L" maxlength="10">
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="comp-product2-val2">Valeur 2</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="comp-product2-val2" placeholder="100" step="any" required>
-                            <input type="text" id="comp-product2-unit2" placeholder="km" maxlength="10">
-                        </div>
-                    </div>
-                </div>
+        <!-- ===================== HISTORIQUE ===================== -->
+        <section id="page-history" class="page" aria-labelledby="t-history">
+            <div class="page-head">
+                <h2 id="t-history">Historique</h2>
+                <button type="button" class="btn btn-sm btn-danger-soft" id="histClear" hidden>Tout effacer</button>
             </div>
+            <ul class="hist-list" id="histList"></ul>
+        </section>
 
-            <div class="form-buttons">
-                <button type="button" id="compareBtn" class="btn btn-primary">📊 Comparer</button>
-                <button type="reset" class="btn btn-secondary">🔄 Réinitialiser</button>
+        <footer class="footer">
+            <p>&copy; 2026 – LEROY Aurélien – Tous droits réservés – Version 2.0.0</p>
+        </footer>
+    </main>
+
+    <!-- ===== BARRE D'ONGLETS (bas d'écran) ===== -->
+    <nav class="tabbar" aria-label="Navigation principale">
+        <div class="tabbar-inner">
+            <button type="button" class="tab active" data-page="rule3" aria-current="page">
+                <span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span>
+                <span>Règle de 3</span>
+            </button>
+            <button type="button" class="tab" data-page="price">
+                <span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.2 9h13.6l1.7 10.3a1.5 1.5 0 0 1-1.5 1.7H5a1.5 1.5 0 0 1-1.5-1.7L5.2 9z"/><path d="M9 9a3 3 0 1 1 6 0"/></svg></span>
+                <span>Prix</span>
+            </button>
+            <button type="button" class="tab" data-page="percent">
+                <span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></span>
+                <span>%</span>
+            </button>
+            <button type="button" class="tab" data-page="promo">
+                <span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span>
+                <span>Promos</span>
+            </button>
+            <button type="button" class="tab" data-page="history">
+                <span class="tab-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+                <span>Historique</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== FENÊTRE DE SAUVEGARDE ===== -->
+    <dialog id="saveDialog" class="sheet" aria-labelledby="saveTitle">
+        <form method="dialog" novalidate>
+            <h3 id="saveTitle">Sauvegarder ce calcul</h3>
+            <p class="save-summary" id="saveSummary"></p>
+            <label class="field">
+                <span class="field-label">Nom (facultatif)</span>
+                <span class="input-wrap">
+                    <input id="saveName" type="text" maxlength="60" autocomplete="off" enterkeyhint="done">
+                </span>
+            </label>
+            <div class="actions">
+                <button type="submit" value="save" class="btn btn-primary order-2">Sauvegarder</button>
+                <button type="button" class="btn btn-ghost order-1" id="saveCancel">Annuler</button>
             </div>
         </form>
+    </dialog>
 
-<!-- Résultats -->
-<div id="comparisonResults" class="comparison-results hidden">
-    <h3>📊 Résultats</h3>
-
-    <div class="result-grid">
-        <!-- Produit 1 -->
-        <div class="result-item">
-            <span id="comp-result-ratio-p1-name1" class="result-label"></span>
-            <div id="comp-result-ratio-p1-val1" class="result-ratio-display"></div>
-        </div>
-
-        <div class="result-item">
-            <span id="comp-result-ratio-p1-name2" class="result-label"></span>
-            <div id="comp-result-ratio-p1-val2" class="result-ratio-display"></div>
-        </div>
-
-        <!-- Produit 2 -->
-        <div class="result-item">
-            <span id="comp-result-ratio-p2-name1" class="result-label"></span>
-            <div id="comp-result-ratio-p2-val1" class="result-ratio-display"></div>
-        </div>
-
-        <div class="result-item">
-            <span id="comp-result-ratio-p2-name2" class="result-label"></span>
-            <div id="comp-result-ratio-p2-val2" class="result-ratio-display"></div>
-        </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="update-bar" id="updateBar" hidden>
+        <span>Nouvelle version disponible</span>
+        <button type="button" class="btn btn-sm btn-primary" id="updateBtn">Actualiser</button>
     </div>
 
-    <!-- Comparaisons supplémentaires -->
-    <div class="comparison-extra-section">
-        <h4>📊 COMPARAISONS SUPPLÉMENTAIRES</h4>
-        
-        <div class="extra-comparison-grid">
-            <!-- Différences absolues -->
-            <div class="extra-item">
-                <span id="comp-diff-unit1-label" class="extra-label"></span>
-                <div id="comp-diff-unit1-value" class="extra-value"></div>
-            </div>
-
-            <div class="extra-item">
-                <span id="comp-diff-unit2-label" class="extra-label"></span>
-                <div id="comp-diff-unit2-value" class="extra-value"></div>
-            </div>
-
-            <!-- % sur les ratios -->
-            <div class="extra-item">
-                <span id="comp-percent-ratio1-label" class="extra-label"></span>
-                <div id="comp-percent-ratio1-value" class="extra-value"></div>
-            </div>
-
-            <div class="extra-item">
-                <span id="comp-percent-ratio2-label" class="extra-label"></span>
-                <div id="comp-percent-ratio2-value" class="extra-value"></div>
-            </div>
-
-            <!-- Valeur normalisée -->
-            <div class="extra-item full-width">
-                <span id="comp-normalized-label" class="extra-label"></span>
-                <div id="comp-normalized-value" class="extra-value"></div>
-            </div>
-        </div>
-    </div>
-</div>
- </section>
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 - LEROY Aurélien - Tous droits réservés - Version 1.0.0</p>
-    </footer>
-
-    <script src="app.js"></script>
+    <script src="app.js" defer></script>
 </body>
 </html>
